@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'knox',
+    'app_auth',
 ]
 
 MIDDLEWARE = [
@@ -81,16 +82,12 @@ USE_I18N = True
 USE_TZ = True
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',),
-    'DEFAULT_PAGINATION_CLASS': 'app_base.default.CustomPagination',
-    'PAGE_SIZE': 10,
-
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_AUTHENTICATION_CLASSES':('knox.auth.TokenAuthentication',),
 }
 
 REST_KNOX = {
-  'TOKEN_TTL': timedelta(hours=72),
-  'AUTO_REFRESH': True,
+    'AUTO_REFRESH': True,
+    'TOKEN_TTL': timedelta(days=1)
 }
 
 STATIC_URL = 'static/'
