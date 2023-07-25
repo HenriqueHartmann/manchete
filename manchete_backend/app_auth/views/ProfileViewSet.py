@@ -32,6 +32,9 @@ class ProfileViewSet(viewsets.ViewSet):
         if profile == None:
             raise NotFound("Perfil não encontrado.")
 
+        if profile.user != request.user:
+            raise PermissionDenied("Você não tem permissão.")
+
         serializer = ProfileSerializer(profile)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
