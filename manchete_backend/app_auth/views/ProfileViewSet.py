@@ -3,8 +3,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied, NotFound, ValidationError
 from rest_framework.response import Response
 
-from app_auth.models.Profile import Profile
-from app_auth.serializers.ProfileSerializer import ProfileSerializer, ProfileCreateSerializer, UserSerializer
+from app_auth.models import Profile
+from app_auth.serializers import ProfileSerializer, ProfileCreateSerializer
 
 
 class ProfileViewSet(viewsets.ViewSet):
