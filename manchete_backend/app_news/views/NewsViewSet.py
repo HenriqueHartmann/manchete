@@ -7,7 +7,6 @@ from app_auth.models import Profile
 from app_news.models import News
 from app_news.serializers import NewsSerializer, NewsCreateSerializer, NewsUpdateSerializer
 
-
 class NewsViewSet(viewsets.ViewSet):
     def get_queryset(self):
         return News.objects.all().order_by('-created_at', 'id')
@@ -112,11 +111,14 @@ class NewsViewSet(viewsets.ViewSet):
             raise NotFound("Notícia não encontrada.")
 
         if news.published == False:
+            profile = Profile.objects.all().filter(user=request.user.pk).first()
+
+            if profile == None:
+                raise NotFound("Perfil não encontrado.")
+
             news.published = True
+            news.published_by = profile
             news.save()
 
             return Response({}, status=status.HTTP_201_CREATED)
         return Response({'detail': 'Notícia já foi publicada.'}, status=status.HTTP_400_BAD_REQUEST)
-
-
-# List Submissions
