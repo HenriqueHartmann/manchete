@@ -5,7 +5,15 @@ from rest_framework import serializers
 from app_auth.models import Profile
 
 
+class GroupSerializer(serializers.ModelSerializer):    
+    class Meta:
+        model = Group
+        fields = ['name']
+
+
 class UserSerializer(serializers.ModelSerializer):
+    groups = GroupSerializer(many=True)
+
     class Meta:
         model = User
         fields = ['id', 'email', 'groups', 'is_superuser']
