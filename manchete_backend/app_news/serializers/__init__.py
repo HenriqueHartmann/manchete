@@ -1,0 +1,1 @@
+from .NewsSerializer import NewsSerializer, NewsCreateSerializer

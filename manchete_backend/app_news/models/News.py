@@ -1,6 +1,8 @@
 import uuid
-from django.contrib.auth.models import User
+
 from django.db import models
+
+from app_auth.models import Profile
 
 
 class News(models.Model):
@@ -8,12 +10,12 @@ class News(models.Model):
          primary_key = True,
          default = uuid.uuid4,
          editable = False)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="creator_user")
-    published_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="publisher_user", null=True, blank=True)
+    created_by = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="creator_user")
+    published_by = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="publisher_user", null=True, blank=True)
     published = models.BooleanField(default=False)
-    title = models.CharField(max_length=100)
-    subtitle = models.CharField(max_length=250)
-    body = models.TextField(max_length=500)
+    title = models.CharField(max_length=300)
+    subtitle = models.CharField(max_length=500)
+    body = models.TextField(max_length=5000)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
