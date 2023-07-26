@@ -16,7 +16,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'email', 'groups', 'is_superuser']
+        fields = ['id', 'email', 'groups']
 
 
 class UserCreatorSerializer(serializers.Serializer):
@@ -43,7 +43,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = "__all__"
+        exclude = ['created_at', 'updated_at']
 
 
 class ProfileCreatorSerializer(serializers.ModelSerializer):

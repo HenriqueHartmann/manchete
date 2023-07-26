@@ -13,10 +13,9 @@ class NewsViewSet(viewsets.ViewSet):
         return News.objects.all().order_by('-created_at', 'id')
 
     def list(self, request):
-        serializer = NewsSerializer(self.get_queryset(), many=True)
+        serializer = NewsSerializer(self.get_queryset().filter(published=True), many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-
     def retrieve(self, request, *args, **kwargs):
         news = self.get_queryset().filter(id=kwargs.get('pk')).first()
         
@@ -25,7 +24,6 @@ class NewsViewSet(viewsets.ViewSet):
 
         serializer = NewsSerializer(news)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
 
     def create(self, request):
         if not request.user.is_authenticated: 
@@ -48,11 +46,9 @@ class NewsViewSet(viewsets.ViewSet):
             return Response({}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
     def update(self, request, pk=None):
         pass
 
-    
     def partial_update(self, request, pk=None):
         if not request.user.is_authenticated: 
             raise PermissionDenied("Você não tem permissão.")
@@ -73,7 +69,6 @@ class NewsViewSet(viewsets.ViewSet):
             return Response({}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
 
-
     def destroy(self, request, pk=None):
         if not request.user.is_authenticated: 
             raise PermissionDenied("Você não tem permissão.")
@@ -90,6 +85,17 @@ class NewsViewSet(viewsets.ViewSet):
         news.delete()
         return Response({}, status=status.HTTP_204_NO_CONTENT)
     
+    @action(detail=False, methods=['get'])
+    def submission_list(self, request):
+        if not request.user.is_authenticated: 
+            raise PermissionDenied("Você não tem permissão.")
+
+        if request.user.groups.filter(name='editor').exists() == False:
+            if not request.user.is_superuser:
+                raise PermissionDenied("Você não tem permissão.")
+
+        serializer = NewsSerializer(self.get_queryset().filter(published=False), many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['patch'])
     def publish(self, request, pk=None):
@@ -114,5 +120,3 @@ class NewsViewSet(viewsets.ViewSet):
 
 
 # List Submissions
-# Update News
-
