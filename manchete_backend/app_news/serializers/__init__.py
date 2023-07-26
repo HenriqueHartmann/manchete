@@ -1,1 +1,1 @@
-from .NewsSerializer import NewsSerializer, NewsCreateSerializer
+from .NewsSerializer import NewsSerializer, NewsCreateSerializer, NewsUpdateSerializer

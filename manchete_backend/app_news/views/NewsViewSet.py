@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 from app_auth.models import Profile
 from app_news.models import News
-from app_news.serializers import NewsSerializer, NewsCreateSerializer
+from app_news.serializers import NewsSerializer, NewsCreateSerializer, NewsUpdateSerializer
 
 
 class NewsViewSet(viewsets.ViewSet):
@@ -54,7 +54,24 @@ class NewsViewSet(viewsets.ViewSet):
 
     
     def partial_update(self, request, pk=None):
-        pass
+        if not request.user.is_authenticated: 
+            raise PermissionDenied("Você não tem permissão.")
+        
+        if request.user.groups.filter(name='editor').exists() == False:
+            if not request.user.is_superuser:
+                raise PermissionDenied("Você não tem permissão.")
+        
+        news = News.objects.all().filter(id=pk).first()
+
+        if news == None:
+            raise NotFound("Notícia não encontrada.")
+
+        serializer = NewsUpdateSerializer(news, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response({}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
 
 
     def destroy(self, request, pk=None):
