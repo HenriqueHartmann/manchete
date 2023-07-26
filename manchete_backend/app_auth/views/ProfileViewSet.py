@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied, NotFound, ValidationError
 from rest_framework.response import Response
 
@@ -11,8 +10,6 @@ from app_auth.serializers import ProfileSerializer, ProfileCreatorSerializer, Pr
 
 
 class ProfileViewSet(viewsets.ViewSet):
-    permission_classes = [IsAuthenticated,]
-
     def get_queryset(self):
         return Profile.objects.all().order_by('-created_at', 'id')
 
