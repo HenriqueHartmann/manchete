@@ -17,7 +17,6 @@ export const useAuthStore = defineStore("auth", {
         "http://127.0.0.1:8000/api/v1/auth/login/",
         {
           method: "post",
-          mode: "cors",
           headers: {
             "Content-Type": "application/json",
           },

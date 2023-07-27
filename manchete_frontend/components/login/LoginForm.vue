@@ -1,10 +1,9 @@
-<script lang="ts" setup>
+<script setup>
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '../../store/auth';
 import { ref } from "vue";
 
 const { authenticateUser } = useAuthStore();
-
 const { authenticated } = storeToRefs(useAuthStore());
 
 const isAuthLoading = ref(false);
@@ -12,15 +11,8 @@ const user = ref({
   username: "",
   password: "",
 });
+
 const router = useRouter();
-
-function authorize() {
-  isAuthLoading.value = true;
-
-  setTimeout(() => {
-    isAuthLoading.value = false;
-  }, 3000);
-}
 
 const login = async () => {
   await authenticateUser(user.value);
