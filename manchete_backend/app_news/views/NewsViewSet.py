@@ -11,7 +11,7 @@ from manchete_backend.utils import validate_user
 
 class NewsViewSet(viewsets.ModelViewSet):
     serializer_class = NewsSerializer
-    # pagination_class = NewsResultSetPagination
+    pagination_class = NewsResultSetPagination
 
     def get_queryset(self):
         return News.objects.order_by('-created_at', 'id').filter(published=True)

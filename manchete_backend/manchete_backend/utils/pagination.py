@@ -16,6 +16,7 @@ class ProfileResultSetPagination(PageNumberPagination):
             },
             'items_per_page': 15,
             'count': self.page.paginator.count,
+            'total_pages': self.page.paginator.num_pages,
             'results': data
         })
 
@@ -34,5 +35,6 @@ class NewsResultSetPagination(PageNumberPagination):
             },
             'items_per_page': 1,
             'count': self.page.paginator.count,
+            'total_pages': self.page.paginator.num_pages,
             'results': data
         })
