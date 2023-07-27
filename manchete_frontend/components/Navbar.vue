@@ -1,10 +1,22 @@
-<script setup lang="ts">
+<script setup>
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
+import { storeToRefs } from "pinia";
+import { useAuthStore } from "../store/auth"; // import the auth store we just created
+
+const router = useRouter();
+
+const { logUserOut } = useAuthStore(); // use authenticateUser action from  auth store
+const { authenticated } = storeToRefs(useAuthStore()); // make authenticated state reactive with storeToRefs
+
+const logout = () => {
+  logUserOut();
+  router.push("/login");
+};
 </script>
 
 <template>
   <div>
-    <nav class="bg-gray-50">
+    <nav v-if="!authenticated" class="bg-gray-50">
       <div class="max-w-screen-xl px-6 py-3 mx-auto">
         <div class="flex justify-end">
           <NuxtLink to="/login">
@@ -92,19 +104,18 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
                     >License</a
                   >
                 </MenuItem>
-                <form method="POST" action="#">
-                  <MenuItem v-slot="{ active }">
-                    <button
-                      type="submit"
-                      :class="[
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                        'block w-full px-4 py-2 text-left text-sm',
-                      ]"
-                    >
-                      Sign out
-                    </button>
-                  </MenuItem>
-                </form>
+                <MenuItem v-if="authenticated" v-slot="{ active }">
+                  <button
+                    type="button"
+                    @click.prevent="logout"
+                    :class="[
+                      active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                      'block w-full px-4 py-2 text-left text-sm',
+                    ]"
+                  >
+                    Logout
+                  </button>
+                </MenuItem>
               </div>
             </MenuItems>
           </transition>

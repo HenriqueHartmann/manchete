@@ -10,19 +10,12 @@ const page = ref(1);
 const { data, pending, refresh } = await useAsyncData(
   "news",
   () =>
-    $fetch(`http://127.0.0.1:8000/api/v1/news/`, {
+    $fetch(`http://127.0.0.1:8000/api/v1/news/?page=${page.value}`, {
       method: "GET",
-      mode: "no-cors",
       headers: {
-        Accept: "application/json",
         "Content-Type": "application/json",
-        Connection: "keep-alive",
-        "Access-Control-Allow-Origin": "*",
       },
       initialCache: false,
-      // params: {
-      //   page: page.value,
-      // },
     }),
   {
     watch: [page],
@@ -30,65 +23,69 @@ const { data, pending, refresh } = await useAsyncData(
 );
 
 const refetch = (value) => {
-  console.log(value);
   page.value = value;
   refresh();
 };
 </script>
 
 <template>
-  <div class="">
-    <!-- <Navbar /> -->
-
-    <div class="max-w-screen-xl px-4 pt-4 mx-auto">
+  <div class="min-h-full">
+    <div
+      v-if="pending"
+      class="max-w-screen-xl px-4 mx-auto flex justify-center items-center min-h-[700px]"
+    >
+      <Loading />
+    </div>
+    <div v-else class="max-w-screen-xl px-4 pt-4 mx-auto min-h-[700px]">
       <div class="flex flex-row items-center justify-start py-8 px-3">
         <div class="text-slate-800 text-5xl font-semibold">Notícias</div>
       </div>
-
-      <div
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 items-start gap-x-8 gap-y-8 flex-1"
-      >
-        <!-- <div v-if="pending">Loading ...</div>
-        <div v-else class="w-full h-full flex justify-center">
-          <div v-for="(n, index) in data['results']" :key="index">
-            <NewsCard :title="n.title" :subtitle="n.subtitle" />
-            {{ n.id }}
-          </div>
-        </div> -->
-
-        <div v-for="(n, index) in data" :key="index">
-          <NewsCard :title="n.title" :subtitle="n.subtitle" />
+      <div v-if="data['count'] === 0" class="flex justify-center">
+        <div class="px-3 py-24">
+            <div class="text-slate-800 text-3xl font-semibold">
+              Sem notícias cadastradas
+            </div>
         </div>
       </div>
-      <!-- <div v-if="pending">Loading ...</div>
       <div v-else>
-        <div class="pt-[150px] pb-[50px] flex justify-center items-center">
-          <ul class="flex justify-center items-center">
-            <li v-for="n in data['count']" :key="n">
-              <button
-                v-if="n === page"
-                type="button"
-                class="mx-1 flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-tr from-purple-600 to-blue-500 p-0 text-sm text-white shadow-md shadow-blue-500/20 transition duration-150 ease-in-out"
-                href="#"
-              >
-                {{ n }}
-              </button>
-              <button
-                type="button"
-                v-else
-                @click="refetch(n)"
-                class="mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-blue-gray-100 bg-transparent p-0 text-sm text-blue-gray-500 transition duration-150 ease-in-out hover:bg-gradient-to-tr from-purple-600 to-blue-500 hover:text-white"
-                href="#"
-              >
-                {{ n }}
-              </button>
-            </li>
-          </ul>
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 items-start gap-x-8 gap-y-8 flex-1"
+        >
+          <div
+            v-for="(n, index) in data['results']"
+            :key="index"
+            class="min-w-full w-full h-full flex justify-center"
+          >
+            <NewsCard :title="n.title" :subtitle="n.subtitle" />
+          </div>
+          <div>
         </div>
-      </div> -->
+      </div>
+      <div class="pt-[150px] pb-[50px] flex justify-center items-center">
+              <ul class="flex justify-center items-center">
+                <li v-for="n in data['total_pages']" :key="n">
+                  <button
+                    v-if="n === page"
+                    type="button"
+                    class="mx-1 flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-tr from-purple-600 to-blue-500 p-0 text-sm text-white shadow-md shadow-blue-500/20 transition duration-150 ease-in-out"
+                    href="#"
+                  >
+                    {{ n }}
+                  </button>
+                  <button
+                    type="button"
+                    v-else
+                    @click="refetch(n)"
+                    class="mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-blue-gray-100 bg-transparent p-0 text-sm text-blue-gray-500 transition duration-150 ease-in-out hover:bg-gradient-to-tr from-purple-600 to-blue-500 hover:text-white"
+                    href="#"
+                  >
+                    {{ n }}
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
     </div>
-
-    <!-- <Footer></Footer> -->
   </div>
 </template>
 

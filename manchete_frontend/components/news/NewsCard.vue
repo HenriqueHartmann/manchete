@@ -1,10 +1,10 @@
 <template>
   <div
     v-if="!isLoading"
-    class="max-w-sm rounded-xl overflow-hidden shadow-lg h-full flex flex-col"
+    class="max-w-sm rounded-xl overflow-hidden shadow-lg h-full flex flex-col w-full min-h-[200px]"
   >
     <!-- IMAGE -->
-    <img class="w-full" :src="picture" />
+    <!-- <img class="w-full" :src="picture" /> -->
 
     <!-- CONTENT -->
     <div class="items-end">
@@ -45,8 +45,8 @@ defineProps({
 });
 
 const isLoading = ref(true);
-const picture =
-  "https://unisa.edu.au/siteassets/media-centre/images/coffee_cat_shutterstock_340753520.jpg";
+// const picture =
+//   "https://unisa.edu.au/siteassets/media-centre/images/coffee_cat_shutterstock_340753520.jpg";
 
 setTimeout(() => {
   isLoading.value = false;

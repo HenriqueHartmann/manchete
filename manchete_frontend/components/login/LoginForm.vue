@@ -1,3 +1,35 @@
+<script lang="ts" setup>
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from '../../store/auth';
+import { ref } from "vue";
+
+const { authenticateUser } = useAuthStore();
+
+const { authenticated } = storeToRefs(useAuthStore());
+
+const isAuthLoading = ref(false);
+const user = ref({
+  username: "",
+  password: "",
+});
+const router = useRouter();
+
+function authorize() {
+  isAuthLoading.value = true;
+
+  setTimeout(() => {
+    isAuthLoading.value = false;
+  }, 3000);
+}
+
+const login = async () => {
+  await authenticateUser(user.value);
+  if (authenticated) {
+    router.push('/');
+  }
+};
+</script>
+
 <template>
   <div class="flex justify-center flex-1">
     <div class="w-full sm:w-5/6 md:w-4/6 lg:w-1/2 xl:w-5/12 p-6 flex flex-col">
@@ -78,25 +110,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { ref } from "vue";
-
-const isAuthLoading = ref(false);
-const user = ref({
-  username: "",
-  password: "",
-});
-
-function authorize() {
-  isAuthLoading.value = true;
-
-  setTimeout(() => {
-    isAuthLoading.value = false;
-  }, 3000);
-}
-
-const login = async () => {
-  // TODO send user Data to the login endpoint and redirect if  successful
-};
-</script>

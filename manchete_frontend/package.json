@@ -11,8 +11,10 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxtjs/tailwindcss": "^6.8.0",
+    "@pinia/nuxt": "^0.4.11",
     "@types/node": "^18.17.0",
-    "nuxt": "^3.6.5"
+    "nuxt": "^3.6.5",
+    "pinia": "^2.1.6"
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.14",

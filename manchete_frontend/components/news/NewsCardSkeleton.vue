@@ -4,7 +4,7 @@
       class="w-[384px] rounded-xl overflow-hidden shadow-lg flex flex-col animate-pulse"
     >
       <!-- IMAGE -->
-      <div
+      <!-- <div
         class="flex items-center justify-center h-[384px] mb-4 bg-gray-300 rounded"
       >
         <svg
@@ -21,7 +21,7 @@
             d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z"
           />
         </svg>
-      </div>
+      </div> -->
   
       <!-- CONTENT -->
       <div class="px-6 py-4">
