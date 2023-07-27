@@ -11,7 +11,7 @@ from manchete_backend.utils.pagination import NewsResultSetPagination
 
 class SubmissionListView(generics.ListAPIView):
     serializer_class = NewsSerializer
-    pagination_class = NewsResultSetPagination
+    # pagination_class = NewsResultSetPagination
 
     def get_queryset(self):
         validate_user.is_user_authenticated(self.request)
