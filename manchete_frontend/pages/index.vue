@@ -1,9 +1,11 @@
 <script setup>
 import { ref } from "vue";
 
-const page = ref(1);
+definePageMeta({
+  layout: "default",
+});
 
-const method = ref("GET");
+const page = ref(1);
 
 const { data, pending, refresh } = await useAsyncData(
   "news",
@@ -35,8 +37,8 @@ const refetch = (value) => {
 </script>
 
 <template>
-  <div class="wrapper">
-    <Navbar />
+  <div class="">
+    <!-- <Navbar /> -->
 
     <div class="max-w-screen-xl px-4 pt-4 mx-auto">
       <div class="flex flex-row items-center justify-start py-8 px-3">
@@ -86,7 +88,7 @@ const refetch = (value) => {
       </div> -->
     </div>
 
-    <Footer></Footer>
+    <!-- <Footer></Footer> -->
   </div>
 </template>
 
