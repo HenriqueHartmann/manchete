@@ -21,7 +21,8 @@ class NewsCreateSerializer(serializers.ModelSerializer):
 	def create(self, validated_data):
 		news = News.objects.create(**validated_data)
 		return news
-	
+
+
 class NewsUpdateSerializer(serializers.ModelSerializer):	
 	class Meta:
 		model = News
