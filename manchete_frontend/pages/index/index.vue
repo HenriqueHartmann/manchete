@@ -4,7 +4,7 @@ import { ref } from "vue";
 definePageMeta({
   layout: "default",
 });
-const config = useRuntimeConfig()
+const config = useRuntimeConfig();
 
 const page = ref(1);
 
@@ -43,9 +43,9 @@ const refetch = (value) => {
       </div>
       <div v-if="data['count'] === 0" class="flex justify-center">
         <div class="px-3 py-24">
-            <div class="text-slate-800 text-3xl font-semibold">
-              Sem notícias cadastradas
-            </div>
+          <div class="text-slate-800 text-3xl font-semibold">
+            Sem notícias cadastradas
+          </div>
         </div>
       </div>
       <div v-else>
@@ -57,35 +57,36 @@ const refetch = (value) => {
             :key="index"
             class="min-w-full w-full h-full flex justify-center"
           >
-            <NewsCard :title="n.title" :subtitle="n.subtitle" />
+            <NuxtLink :to="'/' + n.id" class="min-w-full w-full h-full">
+              <NewsCard :title="n.title" :subtitle="n.subtitle" />
+            </NuxtLink>
           </div>
-          <div>
+          <div></div>
+        </div>
+        <div class="pt-[150px] pb-[50px] flex justify-center items-center">
+          <ul class="flex justify-center items-center">
+            <li v-for="n in data['total_pages']" :key="n">
+              <button
+                v-if="n === page"
+                type="button"
+                class="mx-1 flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-tr from-purple-600 to-blue-500 p-0 text-sm text-white shadow-md shadow-blue-500/20 transition duration-150 ease-in-out"
+                href="#"
+              >
+                {{ n }}
+              </button>
+              <button
+                type="button"
+                v-else
+                @click="refetch(n)"
+                class="mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-blue-gray-100 bg-transparent p-0 text-sm text-blue-gray-500 transition duration-150 ease-in-out hover:bg-gradient-to-tr from-purple-600 to-blue-500 hover:text-white"
+                href="#"
+              >
+                {{ n }}
+              </button>
+            </li>
+          </ul>
         </div>
       </div>
-      <div class="pt-[150px] pb-[50px] flex justify-center items-center">
-              <ul class="flex justify-center items-center">
-                <li v-for="n in data['total_pages']" :key="n">
-                  <button
-                    v-if="n === page"
-                    type="button"
-                    class="mx-1 flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-tr from-purple-600 to-blue-500 p-0 text-sm text-white shadow-md shadow-blue-500/20 transition duration-150 ease-in-out"
-                    href="#"
-                  >
-                    {{ n }}
-                  </button>
-                  <button
-                    type="button"
-                    v-else
-                    @click="refetch(n)"
-                    class="mx-1 flex h-9 w-9 items-center justify-center rounded-full border border-blue-gray-100 bg-transparent p-0 text-sm text-blue-gray-500 transition duration-150 ease-in-out hover:bg-gradient-to-tr from-purple-600 to-blue-500 hover:text-white"
-                    href="#"
-                  >
-                    {{ n }}
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </div>
     </div>
   </div>
 </template>
