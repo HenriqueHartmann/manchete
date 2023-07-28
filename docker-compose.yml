@@ -31,22 +31,22 @@ services:
     networks:
       - sntw
 
-  # frontend:
-  #   build: .
-  #   image: manchete-frontend-1-0-0
-  #   ports:
-  #     - "3000:3000"
-  #   environment:
-  #     - BACKEND_BASE_URL=http://0.0.0.0:8000/api/v1
-  #   container_name: manchete_frontend
-  #   volumes:
-  #     - .:/app
-  #     - /app/node_modules
-  #   depends_on:
-  #     - db
-  #     - backend
-  #   networks:
-  #     - sntw
+  frontend:
+    build: manchete_frontend/.
+    image: manchete-frontend-1-0-0
+    ports:
+      - "3000:3000"
+    environment:
+      - BACKEND_BASE_URL=http://0.0.0.0:8000/api/v1
+    container_name: manchete_frontend
+    volumes:
+      - .:/app
+      - .:/app/node_modules
+    depends_on:
+      - db
+      - backend
+    networks:
+      - sntw
 
 volumes:
   cache:

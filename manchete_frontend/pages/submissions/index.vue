@@ -1,11 +1,12 @@
 <script setup>
 import { storeToRefs } from "pinia";
-import { useAuthStore } from "../store/auth";
+import { useAuthStore } from "../../store/auth";
 import { ref } from "vue";
 
 definePageMeta({
   layout: "default",
 });
+const config = useRuntimeConfig()
 
 const router = useRouter();
 
@@ -21,13 +22,11 @@ const isCommonError = ref(false);
 const isPermissionError = ref(false);
 const page = ref(1);
 
-console.log(token.value);
-
 const { data, pending, refresh } = await useAsyncData(
   "news",
   () =>
     $fetch(
-      `http://127.0.0.1:8000/api/v1/news/submissions/?page=${page.value}`,
+      `${config.public.baseURL}/news/submissions/?page=${page.value}`,
       {
         method: "GET",
         headers: {
@@ -108,7 +107,9 @@ const refetch = (value) => {
             :key="index"
             class="min-w-full w-full h-full flex justify-center"
           >
-            <NewsCard :title="n.title" :subtitle="n.subtitle" />
+            <NuxtLink :to="'/' + 'submissions' + '/' + n.id" class="min-w-full w-full h-full">
+              <NewsCard :title="n.title" :subtitle="n.subtitle" />
+            </NuxtLink>
           </div>
           <div></div>
         </div>

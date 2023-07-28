@@ -6,6 +6,7 @@ import { ref } from "vue";
 definePageMeta({
   layout: "default",
 });
+const config = useRuntimeConfig()
 
 const router = useRouter();
 
@@ -37,7 +38,7 @@ const sendSubmission = async () => {
   ) {
     isLoading.value = true;
     const { data, pending } = await useFetch(
-      "http://127.0.0.1:8000/api/v1/news/",
+      `${config.public.baseURL}/news/`,
       {
         method: "post",
         headers: {

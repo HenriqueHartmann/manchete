@@ -4,13 +4,14 @@ import { ref } from "vue";
 definePageMeta({
   layout: "default",
 });
+const config = useRuntimeConfig()
 
 const page = ref(1);
 
 const { data, pending, refresh } = await useAsyncData(
   "news",
   () =>
-    $fetch(`http://127.0.0.1:8000/api/v1/news/?page=${page.value}`, {
+    $fetch(`${config.public.baseURL}/news/?page=${page.value}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

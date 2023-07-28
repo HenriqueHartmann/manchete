@@ -12,9 +12,11 @@ export const useAuthStore = defineStore("auth", {
   }),
   actions: {
     async authenticateUser({ username, password }: UserPayloadInterface) {
+      const config = useRuntimeConfig()
+
       // useFetch from nuxt 3
       const { data, pending }: any = await useFetch(
-        "http://127.0.0.1:8000/api/v1/auth/login/",
+        `${config.public.baseURL}/auth/login/`,
         {
           method: "post",
           headers: {
