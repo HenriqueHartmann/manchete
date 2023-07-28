@@ -35,10 +35,14 @@ const logout = () => {
       <div
         class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
       >
-        <a href="#" class="flex items-center px-3">
+        <NuxtLink to="/" class="flex items-center px-3">
           <LogoTitle />
-        </a>
-        <Menu v-if="authenticated" as="div" class="relative inline-block text-left">
+        </NuxtLink>
+        <Menu
+          v-if="authenticated"
+          as="div"
+          class="relative inline-block text-left"
+        >
           <div>
             <MenuButton
               class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50"
@@ -85,14 +89,15 @@ const logout = () => {
                   </NuxtLink>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                  <a
-                    href="#"
+                  <NuxtLink
+                    to="/submissions"
                     :class="[
                       active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                       'block px-4 py-2 text-sm',
                     ]"
-                    >Submissões</a
                   >
+                    Submissões
+                  </NuxtLink>
                 </MenuItem>
                 <MenuItem v-if="authenticated" v-slot="{ active }">
                   <button
