@@ -1,0 +1,53 @@
+version: '3'
+
+networks:
+  sntw:
+    driver: bridge
+
+services:
+  db:
+    image: mysql:8
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=manchete
+    container_name: manchete_db_mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - sntw
+
+  backend:
+    build: manchete_backend/.
+    image: manchete-backend-1-0-0
+    ports:
+      - "8000:8000"
+    container_name: manchete_backend
+    env_file:
+      - manchete_backend/env_docker_local.env
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+    networks:
+      - sntw
+
+  # frontend:
+  #   build: .
+  #   image: manchete-frontend-1-0-0
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - BACKEND_BASE_URL=http://0.0.0.0:8000/api/v1
+  #   container_name: manchete_frontend
+  #   volumes:
+  #     - .:/app
+  #     - /app/node_modules
+  #   depends_on:
+  #     - db
+  #     - backend
+  #   networks:
+  #     - sntw
+
+volumes:
+  cache:
+    driver: local
